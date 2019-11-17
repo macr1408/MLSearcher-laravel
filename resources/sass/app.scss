@@ -1,1 +1,15 @@
-//
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+$mercadolibre-yellow: #fff159;
+
+.bg-yellow-primary {
+    background-color: $mercadolibre-yellow;
+}
+
+.text-yellow-primary {
+    color: $mercadolibre-yellow;
+}
