@@ -11568,6 +11568,10 @@ video {
   color: #fff159;
 }
 
+.border-yellow-primary {
+  border-color: #fff159;
+}
+
 .chevron.inverse {
   -webkit-transform: rotateZ(180deg);
           transform: rotateZ(180deg);

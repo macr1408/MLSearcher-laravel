@@ -1,10 +1,9 @@
 <template>
   <div class="search-results-wrapper flex flex-wrap container">
-    <Accordion
-      title="Filter by"
-      customClasses="search-filter lg:hidden bg-gray-200 w-full p-4 relative"
-    >asd</Accordion>
-    <div class="search-sidebar mt-5 hidden lg:block lg:w-3/12"></div>
+    <search-filters
+      :filters="searchResults? searchResults.available_filters : []"
+      :current-url="currentUrl"
+    ></search-filters>
     <div class="placeholder-items-wrapper w-9/12 ph-item" v-if="searchResults === null">
       <div
         class="shadow w-44-percent lg:w-30-percent inline-block m-2 p-5"
@@ -21,41 +20,49 @@
         </div>
       </div>
     </div>
-    <div
-      class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2"
-      v-if="searchResults !== null"
-    >
+    <div class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2" v-if="searchResults">
       <search-item
         v-for="(product, index) in searchResults.results"
         :key="index"
-        :item="{
-          title: product.title,
-          img: product.thumbnail,
-          price: product.price,
-          state: product.address.state_name,
-          city: product.address.city_name,
-          link: product.permalink
-          }"
+        :item="product"
         custom-class="m-2"
       ></search-item>
     </div>
+    <pagination v-if="searchResults" :total-pages="totalPages()" :current-page="currentPage()"></pagination>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["searchTerm"],
+  props: ["searchTerm", "currentUrl", "searchFilters"],
   data() {
     return {
       searchResults: null
     };
   },
+  methods: {
+    totalPages() {
+      return Math.ceil(
+        this.searchResults.paging.total / this.searchResults.paging.limit
+      );
+    },
+    currentPage() {
+      const currentPage =
+        this.searchResults.paging.offset / this.searchResults.paging.limit;
+      return currentPage ? currentPage : 1;
+    }
+  },
   mounted() {
-    axios
-      .get(`https://api.mercadolibre.com/sites/MLA/search?q=${this.searchTerm}`)
-      .then(response => {
-        this.searchResults = response.data;
-      });
+    const filters = JSON.parse(this.searchFilters);
+    const queryString = Object.keys(filters)
+      .map(key => `${key}=${filters[key]}`)
+      .join("&");
+
+    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchTerm}${Object.keys(filters).length !== 0 ? "&" + queryString : ""}`;
+
+    axios.get(url).then(response => {
+      this.searchResults = response.data;
+    });
   }
 };
 </script>

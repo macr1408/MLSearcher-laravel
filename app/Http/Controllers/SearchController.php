@@ -8,7 +8,14 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        return view('search', ['searchTerm' => $request->query('q')]);
+        $currentQuery = $request->query();
+        $searchFilters = $currentQuery;
+        unset($searchFilters['q']);
+        return view('search', [
+            'searchTerm' => $request->query('q'),
+            'searchFilters' => $searchFilters,
+            'currentUrl' => $request->fullUrlWithQuery($currentQuery)
+        ]);
     }
 
     public function create(Request $request)

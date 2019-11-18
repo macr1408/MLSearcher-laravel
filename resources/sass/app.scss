@@ -16,6 +16,10 @@ $mercadolibre-yellow: #fff159;
     color: $mercadolibre-yellow;
 }
 
+.border-yellow-primary {
+    border-color: $mercadolibre-yellow;
+}
+
 .chevron.inverse {
     transform: rotateZ(180deg);
 }
