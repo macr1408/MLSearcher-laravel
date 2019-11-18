@@ -14,3 +14,5 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/search', 'SearchController@index')->name('view_search');
+Route::post('/search', 'SearchController@create')->name('create_search');

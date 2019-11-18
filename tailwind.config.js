@@ -4,6 +4,9 @@ module.exports = {
             boxShadow: {
                 'yellow': '0 0 1px #fff159'
             }
+        },
+        container: {
+            center: true,
         }
     },
     variants: {},

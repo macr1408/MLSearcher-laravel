@@ -4,6 +4,8 @@
 
 @import "tailwindcss/utilities";
 
+@import "placeholder-loading/src/scss/placeholder-loading";
+
 $mercadolibre-yellow: #fff159;
 
 .bg-yellow-primary {
@@ -12,4 +14,18 @@ $mercadolibre-yellow: #fff159;
 
 .text-yellow-primary {
     color: $mercadolibre-yellow;
+}
+
+.chevron.inverse {
+    transform: rotateZ(180deg);
+}
+
+@responsive {
+    .w-30-percent {
+        width: 30%;
+    }
+
+    .w-44-percent {
+        width: 44%;
+    }
 }

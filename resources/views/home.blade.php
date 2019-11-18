@@ -5,9 +5,12 @@
     <div class="w-10/12 lg:w-8/12">
         <h1 class="text-gray-800 font-bold text-2xl mb-4">¿Que estás buscando?</h1>
         <div class="relative">
-            <form action="/search" method="post">
-                @method('GET')
-                <input class="shadow w-full h-9 p-4 outline-none" placeholder="Mesita ratonera" />
+            <form action="{{ route('create_search') }}" method="post">
+                @csrf
+                <input class="shadow w-full h-9 p-4 outline-none" placeholder="Mesita ratonera" name="search" />
+                @error('search')
+                <div class="text-red-600 p-4 text-xs">{{ $message }}</div>
+                @enderror
                 <button type="submit">
                     <svg class="absolute top-0 right-0 cursor-pointer" height='60px' width='60px' fill="#3e3e3e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" version="1.1" x="0px" y="0px">
                         <g fill-rule="nonzero">

@@ -8,11 +8,12 @@ This is a tool for searching items within Mercadolibre, but allowing us to combi
 - Vue Js
 - Tailwind
 - Axios
+- Placeholder loading
 
 ### To Do
 
 - [x] Home
-- [ ] Basic search
+- [x] Basic search
 - [ ] Advanced search (Filters)
 - [ ] Login/Register
 - [ ] Favorites filters combinations
