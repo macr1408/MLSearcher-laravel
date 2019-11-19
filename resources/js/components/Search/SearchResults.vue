@@ -2,7 +2,7 @@
   <div class="search-results-wrapper flex flex-wrap container">
     <search-filters
       :filters="searchResults? searchResults.available_filters : []"
-      :current-url="currentUrl"
+      :update-url-action="createSearchUrlWithParameter"
     ></search-filters>
     <div class="placeholder-items-wrapper w-9/12 ph-item" v-if="searchResults === null">
       <div
@@ -28,7 +28,12 @@
         custom-class="m-2"
       ></search-item>
     </div>
-    <pagination v-if="searchResults" :total-pages="totalPages()" :current-page="currentPage()"></pagination>
+    <pagination
+      v-if="searchResults"
+      :total-pages="totalPages()"
+      :current-page="currentPage()"
+      :on-navigate="createSearchUrlWithParameter"
+    ></pagination>
   </div>
 </template>
 
@@ -49,7 +54,12 @@ export default {
     currentPage() {
       const currentPage =
         this.searchResults.paging.offset / this.searchResults.paging.limit;
-      return currentPage ? currentPage : 1;
+      return currentPage ? currentPage + 1 : 1;
+    },
+    createSearchUrlWithParameter(param, value) {
+      let url = new URL(this.currentUrl);
+      url.searchParams.set(param, value);
+      return url;
     }
   },
   mounted() {
@@ -58,7 +68,11 @@ export default {
       .map(key => `${key}=${filters[key]}`)
       .join("&");
 
-    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchTerm}${Object.keys(filters).length !== 0 ? "&" + queryString : ""}`;
+    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${
+      this.searchTerm
+    }&sort=price_asc${
+      Object.keys(filters).length !== 0 ? "&" + queryString : ""
+    }`;
 
     axios.get(url).then(response => {
       this.searchResults = response.data;

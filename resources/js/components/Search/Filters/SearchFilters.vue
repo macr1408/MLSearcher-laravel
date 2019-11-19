@@ -1,7 +1,7 @@
 <template>
   <div class="search-filters-wrapper w-full lg:w-3/12">
-    <search-filters-mobile :filters="filters" :current-url="currentUrl"></search-filters-mobile>
-    <search-filters-desktop :filters="filters" :current-url="currentUrl"></search-filters-desktop>
+    <search-filters-mobile :filters="filters" :update-url-action="updateUrlAction"></search-filters-mobile>
+    <search-filters-desktop :filters="filters" :update-url-action="updateUrlAction"></search-filters-desktop>
   </div>
 </template>
 
@@ -12,8 +12,8 @@ export default {
       type: Array,
       required: true
     },
-    currentUrl: {
-      type: String,
+    updateUrlAction: {
+      type: Function,
       required: true
     }
   }

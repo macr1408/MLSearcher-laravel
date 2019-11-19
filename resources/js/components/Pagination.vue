@@ -5,7 +5,7 @@
         <a
           :class="currentPage === i ? 'bg-yellow-primary text-white font-bold' : ''"
           class="p-3 rounded-full border-solid border border-grey-800"
-          href="#"
+          :href="handleNavigate(i-1)"
         >{{ i }}</a>
       </li>
     </ul>
@@ -22,6 +22,15 @@ export default {
     totalPages: {
       type: Number,
       required: true
+    },
+    onNavigate: {
+      type: Function,
+      required: true
+    }
+  },
+  methods: {
+    handleNavigate(page) {
+      return this.onNavigate("offset", page * 50);
     }
   }
 };

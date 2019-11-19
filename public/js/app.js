@@ -2009,6 +2009,15 @@ __webpack_require__.r(__webpack_exports__);
     totalPages: {
       type: Number,
       required: true
+    },
+    onNavigate: {
+      type: Function,
+      required: true
+    }
+  },
+  methods: {
+    handleNavigate: function handleNavigate(page) {
+      return this.onNavigate("offset", page * 50);
     }
   }
 });
@@ -2037,8 +2046,8 @@ __webpack_require__.r(__webpack_exports__);
       type: Array,
       required: true
     },
-    currentUrl: {
-      type: String,
+    updateUrlAction: {
+      type: Function,
       required: true
     }
   }
@@ -2079,16 +2088,9 @@ __webpack_require__.r(__webpack_exports__);
       type: Array,
       required: true
     },
-    currentUrl: {
-      type: String,
+    updateUrlAction: {
+      type: Function,
       required: true
-    }
-  },
-  methods: {
-    getSearchUrlWithParameter: function getSearchUrlWithParameter(param, value) {
-      var url = new URL(this.currentUrl);
-      url.searchParams.set(param, value);
-      return url;
     }
   }
 });
@@ -2133,16 +2135,9 @@ __webpack_require__.r(__webpack_exports__);
       type: Array,
       required: true
     },
-    currentUrl: {
-      type: String,
+    updateUrlAction: {
+      type: Function,
       required: true
-    }
-  },
-  methods: {
-    getSearchUrlWithParameter: function getSearchUrlWithParameter(param, value) {
-      var url = new URL(this.currentUrl);
-      url.searchParams.set(param, value);
-      return url;
     }
   }
 });
@@ -2218,6 +2213,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["searchTerm", "currentUrl", "searchFilters"],
   data: function data() {
@@ -2231,7 +2231,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     currentPage: function currentPage() {
       var currentPage = this.searchResults.paging.offset / this.searchResults.paging.limit;
-      return currentPage ? currentPage : 1;
+      return currentPage ? currentPage + 1 : 1;
+    },
+    createSearchUrlWithParameter: function createSearchUrlWithParameter(param, value) {
+      var url = new URL(this.currentUrl);
+      url.searchParams.set(param, value);
+      return url;
     }
   },
   mounted: function mounted() {
@@ -2241,7 +2246,7 @@ __webpack_require__.r(__webpack_exports__);
     var queryString = Object.keys(filters).map(function (key) {
       return "".concat(key, "=").concat(filters[key]);
     }).join("&");
-    var url = "https://api.mercadolibre.com/sites/MLA/search?q=".concat(this.searchTerm).concat(Object.keys(filters).length !== 0 ? "&" + queryString : "");
+    var url = "https://api.mercadolibre.com/sites/MLA/search?q=".concat(this.searchTerm, "&sort=price_asc").concat(Object.keys(filters).length !== 0 ? "&" + queryString : "");
     axios.get(url).then(function (response) {
       _this.searchResults = response.data;
     });
@@ -38445,7 +38450,7 @@ var render = function() {
                 _vm.currentPage === i
                   ? "bg-yellow-primary text-white font-bold"
                   : "",
-              attrs: { href: "#" }
+              attrs: { href: _vm.handleNavigate(i - 1) }
             },
             [_vm._v(_vm._s(i))]
           )
@@ -38482,11 +38487,17 @@ var render = function() {
     { staticClass: "search-filters-wrapper w-full lg:w-3/12" },
     [
       _c("search-filters-mobile", {
-        attrs: { filters: _vm.filters, "current-url": _vm.currentUrl }
+        attrs: {
+          filters: _vm.filters,
+          "update-url-action": _vm.updateUrlAction
+        }
       }),
       _vm._v(" "),
       _c("search-filters-desktop", {
-        attrs: { filters: _vm.filters, "current-url": _vm.currentUrl }
+        attrs: {
+          filters: _vm.filters,
+          "update-url-action": _vm.updateUrlAction
+        }
       })
     ],
     1
@@ -38539,10 +38550,7 @@ var render = function() {
                   "a",
                   {
                     attrs: {
-                      href: _vm.getSearchUrlWithParameter(
-                        value["id"],
-                        value2["id"]
-                      )
+                      href: _vm.updateUrlAction(value["id"], value2["id"])
                     }
                   },
                   [
@@ -38609,10 +38617,7 @@ var render = function() {
                       "a",
                       {
                         attrs: {
-                          href: _vm.getSearchUrlWithParameter(
-                            value["id"],
-                            value2["id"]
-                          )
+                          href: _vm.updateUrlAction(value["id"], value2["id"])
                         }
                       },
                       [
@@ -38720,7 +38725,7 @@ var render = function() {
       _c("search-filters", {
         attrs: {
           filters: _vm.searchResults ? _vm.searchResults.available_filters : [],
-          "current-url": _vm.currentUrl
+          "update-url-action": _vm.createSearchUrlWithParameter
         }
       }),
       _vm._v(" "),
@@ -38764,7 +38769,8 @@ var render = function() {
         ? _c("pagination", {
             attrs: {
               "total-pages": _vm.totalPages(),
-              "current-page": _vm.currentPage()
+              "current-page": _vm.currentPage(),
+              "on-navigate": _vm.createSearchUrlWithParameter
             }
           })
         : _vm._e()

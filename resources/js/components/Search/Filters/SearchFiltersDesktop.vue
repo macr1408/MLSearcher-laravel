@@ -8,7 +8,7 @@
       <ul>
         <li v-for="(value2,index2) in value.values" :key="index2" class="py-1">
           <a
-            :href="getSearchUrlWithParameter(value['id'], value2['id'])"
+            :href="updateUrlAction(value['id'], value2['id'])"
           >{{ value2.name }} ({{ value2.results }})</a>
         </li>
       </ul>
@@ -23,16 +23,9 @@ export default {
       type: Array,
       required: true
     },
-    currentUrl: {
-      type: String,
+    updateUrlAction: {
+      type: Function,
       required: true
-    }
-  },
-  methods: {
-    getSearchUrlWithParameter(param, value) {
-      let url = new URL(this.currentUrl);
-      url.searchParams.set(param, value);
-      return url;
     }
   }
 };
