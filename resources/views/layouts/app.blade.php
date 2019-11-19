@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Mercadolibre Deals Finder') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="/js/app.js" defer></script>
     <script>
         window.navBarLinks = {
             home:  "{{ route('home') }}",
@@ -21,7 +21,7 @@
     </script>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
 
     @yield('header-scripts')
 </head>
