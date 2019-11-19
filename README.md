@@ -2,6 +2,8 @@
 
 This is a tool for searching items within Mercadolibre, but allowing us to combine filters and save our preferences.
 
+Live demo: https://mldealsfinder.herokuapp.com/
+
 ### Technologies used
 
 - Laravel
