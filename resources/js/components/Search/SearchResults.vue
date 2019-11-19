@@ -27,13 +27,14 @@
         :item="product"
         custom-class="m-2"
       ></search-item>
+      <pagination
+        v-if="searchResults"
+        :total-pages="totalPages()"
+        :current-page="currentPage()"
+        :on-navigate="createSearchUrlWithParameter"
+        custom-class="my-4"
+      ></pagination>
     </div>
-    <pagination
-      v-if="searchResults"
-      :total-pages="totalPages()"
-      :current-page="currentPage()"
-      :on-navigate="createSearchUrlWithParameter"
-    ></pagination>
   </div>
 </template>
 
@@ -68,11 +69,7 @@ export default {
       .map(key => `${key}=${filters[key]}`)
       .join("&");
 
-    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${
-      this.searchTerm
-    }&sort=price_asc${
-      Object.keys(filters).length !== 0 ? "&" + queryString : ""
-    }`;
+    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchTerm}&sort=price_asc${Object.keys(filters).length !== 0 ? "&" + queryString : ""}`;
 
     axios.get(url).then(response => {
       this.searchResults = response.data;

@@ -2013,6 +2013,9 @@ __webpack_require__.r(__webpack_exports__);
     onNavigate: {
       type: Function,
       required: true
+    },
+    customClass: {
+      type: String
     }
   },
   methods: {
@@ -2164,8 +2167,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["item", "customClass"]
+  props: ["item", "customClass"],
+  methods: {
+    // This is supposed to be the whole objective of this project, to sort using this "advanced filter", this should be customizable in the user preferences and could be saved to be used on each query
+    cityInBlacklist: function cityInBlacklist(city) {
+      return ["San Isidro", "Vicente Lopez", "Vicente López", "Olivos"].includes(city);
+    }
+  }
 });
 
 /***/ }),
@@ -2179,6 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -38435,30 +38449,34 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "pagination-wrapper" }, [
-    _c(
-      "ul",
-      { staticClass: "flex" },
-      _vm._l(_vm.totalPages, function(i) {
-        return _c("li", { key: i }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "p-3 rounded-full border-solid border border-grey-800",
-              class:
-                _vm.currentPage === i
-                  ? "bg-yellow-primary text-white font-bold"
-                  : "",
-              attrs: { href: _vm.handleNavigate(i - 1) }
-            },
-            [_vm._v(_vm._s(i))]
-          )
-        ])
-      }),
-      0
-    )
-  ])
+  return _c(
+    "div",
+    { staticClass: "pagination-wrapper", class: _vm.customClass },
+    [
+      _c(
+        "ul",
+        { staticClass: "flex flex-wrap" },
+        _vm._l(_vm.totalPages, function(i) {
+          return _c("li", { key: i, staticClass: "mb-5" }, [
+            _c(
+              "a",
+              {
+                staticClass:
+                  "p-3 rounded-full border-solid border border-grey-800",
+                class:
+                  _vm.currentPage === i
+                    ? "bg-yellow-primary text-white font-bold"
+                    : "",
+                attrs: { href: _vm.handleNavigate(i - 1) }
+              },
+              [_vm._v(_vm._s(i))]
+            )
+          ])
+        }),
+        0
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38662,39 +38680,41 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {
-      staticClass: "shadow p-4 w-44-percent lg:w-30-percent inline-block",
-      class: this.customClass
-    },
-    [
-      _c("a", { attrs: { href: _vm.item.permalink } }, [
-        _c("img", {
-          staticClass: "mx-auto mb-5",
-          attrs: { src: _vm.item.thumbnail }
-        }),
-        _vm._v(" "),
-        _c(
-          "h2",
-          { staticClass: "font-bold overflow-hidden whitespace-no-wrap" },
-          [_vm._v(_vm._s(_vm.item.title))]
-        ),
-        _vm._v(" "),
-        _c("h2", { staticClass: "text-green-600 font-bold" }, [
-          _vm._v("$" + _vm._s(_vm.item.price))
-        ]),
-        _vm._v(" "),
-        _c("h3", { staticClass: "text-gray-700" }, [
-          _vm._v(
-            _vm._s(_vm.item.address.city_name) +
-              " - " +
-              _vm._s(_vm.item.address.state_name)
-          )
-        ])
-      ])
-    ]
-  )
+  return _vm.cityInBlacklist(_vm.item.address.city_name)
+    ? _c(
+        "div",
+        {
+          staticClass: "shadow p-4 w-44-percent lg:w-30-percent inline-block",
+          class: this.customClass
+        },
+        [
+          _c("a", { attrs: { href: _vm.item.permalink } }, [
+            _c("img", {
+              staticClass: "mx-auto mb-5",
+              attrs: { src: _vm.item.thumbnail }
+            }),
+            _vm._v(" "),
+            _c(
+              "h2",
+              { staticClass: "font-bold overflow-hidden whitespace-no-wrap" },
+              [_vm._v(_vm._s(_vm.item.title))]
+            ),
+            _vm._v(" "),
+            _c("h2", { staticClass: "text-green-600 font-bold" }, [
+              _vm._v("$" + _vm._s(_vm.item.price))
+            ]),
+            _vm._v(" "),
+            _c("h3", { staticClass: "text-gray-700" }, [
+              _vm._v(
+                _vm._s(_vm.item.address.city_name) +
+                  " - " +
+                  _vm._s(_vm.item.address.state_name)
+              )
+            ])
+          ])
+        ]
+      )
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -38755,24 +38775,27 @@ var render = function() {
               staticClass:
                 "search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2"
             },
-            _vm._l(_vm.searchResults.results, function(product, index) {
-              return _c("search-item", {
-                key: index,
-                attrs: { item: product, "custom-class": "m-2" }
-              })
-            }),
-            1
+            [
+              _vm._l(_vm.searchResults.results, function(product, index) {
+                return _c("search-item", {
+                  key: index,
+                  attrs: { item: product, "custom-class": "m-2" }
+                })
+              }),
+              _vm._v(" "),
+              _vm.searchResults
+                ? _c("pagination", {
+                    attrs: {
+                      "total-pages": _vm.totalPages(),
+                      "current-page": _vm.currentPage(),
+                      "on-navigate": _vm.createSearchUrlWithParameter,
+                      "custom-class": "my-4"
+                    }
+                  })
+                : _vm._e()
+            ],
+            2
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.searchResults
-        ? _c("pagination", {
-            attrs: {
-              "total-pages": _vm.totalPages(),
-              "current-page": _vm.currentPage(),
-              "on-navigate": _vm.createSearchUrlWithParameter
-            }
-          })
         : _vm._e()
     ],
     1
