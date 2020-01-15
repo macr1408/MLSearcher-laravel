@@ -22,7 +22,7 @@ class SearchController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'search' => 'required|min:3'
+                'search' => 'required|min:4'
             ],
             [
                 'search.required' => 'Do you want to search anything?'
