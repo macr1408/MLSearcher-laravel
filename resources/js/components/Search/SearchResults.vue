@@ -69,7 +69,11 @@ export default {
       .map(key => `${key}=${filters[key]}`)
       .join("&");
 
-    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${this.searchTerm}&sort=price_asc${Object.keys(filters).length !== 0 ? "&" + queryString : ""}`;
+    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${
+      this.searchTerm
+    }&sort=price_asc${
+      Object.keys(filters).length !== 0 ? "&" + queryString : ""
+    }`;
 
     axios.get(url).then(response => {
       this.searchResults = response.data;

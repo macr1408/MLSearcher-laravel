@@ -11416,6 +11416,7 @@ video {
 }
 
 .ph-item {
+  direction: ltr;
   position: relative;
   display: -webkit-box;
   display: flex;
