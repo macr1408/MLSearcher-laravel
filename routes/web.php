@@ -16,3 +16,9 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/search', 'SearchController@index')->name('view_search');
 Route::post('/search', 'SearchController@create')->name('create_search');
+
+Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
+    Route::get('/settings', 'Users\SettingsController@index')->name('view_settings');
+    Route::post('/settings', 'Users\SettingsController@index')->name('create_settings');
+    Route::put('/settings', 'Users\SettingsController@index')->name('update_settings');
+});

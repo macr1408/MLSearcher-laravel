@@ -14,10 +14,13 @@
     <script src="/js/app.js" defer></script>
     <script>
         window.navBarLinks = {
-            home:  "{{ route('home') }}",
-            login:  "{{ route('login') }}",
-            register:  "{{ route('register') }}"
+            home: "{{ route('home') }}",
+            login: "{{ route('login') }}",
+            register: "{{ route('register') }}"
         };
+        window.userData = {
+            mail: "{{ Auth::user()->email ?? '' }}"
+        }
     </script>
 
     <!-- Styles -->
@@ -28,7 +31,18 @@
 
 <body>
     <div id="app">
-        <nav-bar></nav-bar>
+        @if(Auth::check())
+        <nav-bar-logged-in></nav-bar-logged-in>
+        @else
+        <nav-bar-guest></nav-bar-guest>
+        @endif
+        @if(session('notifications'))
+        <div class="fixed top-0 right-0 p-20">
+            @foreach (session('notifications') as $type => $msg)
+            <notification type="{{ $type }}">{{ $msg }}</notification>
+            @endforeach
+        </div>
+        @endif
         <main>
             @yield('content')
         </main>

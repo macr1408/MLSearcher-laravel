@@ -66,6 +66,7 @@ export default {
       },
       burgerOpen: false
     };
-  }
+  },
+  props: ["loggedIn"]
 };
 </script>
