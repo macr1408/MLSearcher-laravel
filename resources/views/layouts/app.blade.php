@@ -37,7 +37,7 @@
         <nav-bar-guest></nav-bar-guest>
         @endif
         @if(session('notifications'))
-        <div class="fixed top-0 right-0 p-20">
+        <div class="fixed right-0" style="top:70px;">
             @foreach (session('notifications') as $type => $msg)
             <notification type="{{ $type }}">{{ $msg }}</notification>
             @endforeach

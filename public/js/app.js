@@ -38928,7 +38928,7 @@ var render = function() {
                                 staticClass:
                                   "py-4 pl-4 pr-8 hover:bg-yellow-400"
                               },
-                              [_vm._v("Favorites")]
+                              [_vm._v("Favoritos")]
                             )
                           ]),
                           _vm._v(" "),
@@ -38939,7 +38939,7 @@ var render = function() {
                                 staticClass:
                                   "py-4 pl-4 pr-8 hover:bg-yellow-400"
                               },
-                              [_vm._v("Settings")]
+                              [_vm._v("Configuración")]
                             )
                           ]),
                           _vm._v(" "),
@@ -38950,7 +38950,7 @@ var render = function() {
                                 staticClass:
                                   "py-4 pl-4 pr-8 hover:bg-yellow-400"
                               },
-                              [_vm._v("Logout")]
+                              [_vm._v("Salir")]
                             )
                           ])
                         ])

@@ -53,13 +53,13 @@
               <transition name="fade">
                 <ul>
                   <a href="/user/favorites">
-                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Favorites</li>
+                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Favoritos</li>
                   </a>
                   <a href="/user/settings">
-                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Settings</li>
+                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Configuración</li>
                   </a>
                   <a href="/logout">
-                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Logout</li>
+                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Salir</li>
                   </a>
                 </ul>
               </transition>
