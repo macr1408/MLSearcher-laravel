@@ -72,9 +72,14 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
         $settings = $request->input();
+        $locations = explode(',', $settings['allowed-locations'] ?? []);
+        $locations = array_map(function ($elem) {
+            return trim(strtolower($elem));
+        }, $locations);
+        $locations = implode(',', $locations);
         UserSettings::updateOrCreate(
             ['user_id' => Auth::id()],
-            ['allowed-locations' => $settings['allowed-locations'] ?? '']
+            ['allowed-locations' => $locations]
         );
         session()->flash('notifications', [
             'success' => 'Configuración guardada correctamente'

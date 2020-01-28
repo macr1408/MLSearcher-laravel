@@ -2420,18 +2420,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["item", "customClass"],
-  methods: {
-    // This is supposed to be the whole objective of this project, to sort using this "advanced filter", this should be customizable in the user preferences and could be saved to be used on each query
-    cityInBlacklist: function cityInBlacklist(city) {
-      return ["San Isidro", "Vicente Lopez", "Vicente López", "Olivos"].includes(city);
-    }
-  }
+  props: ["item", "customClass"]
 });
 
 /***/ }),
@@ -2486,7 +2476,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["searchTerm", "currentUrl", "searchFilters"],
+  props: ["searchTerm", "currentUrl", "searchFilters", "apiToken"],
   data: function data() {
     return {
       searchResults: null
@@ -2510,11 +2500,14 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var filters = JSON.parse(this.searchFilters);
-    var queryString = Object.keys(filters).map(function (key) {
-      return "".concat(key, "=").concat(filters[key]);
-    }).join("&");
-    var url = "https://api.mercadolibre.com/sites/MLA/search?q=".concat(this.searchTerm, "&sort=price_asc").concat(Object.keys(filters).length !== 0 ? "&" + queryString : "");
-    axios.get(url).then(function (response) {
+    axios.post("/api/search", {
+      q: this.searchTerm,
+      filters: filters
+    }, {
+      headers: {
+        Authorization: "Bearer " + this.apiToken
+      }
+    }).then(function (response) {
       _this.searchResults = response.data;
     });
   }
@@ -39297,39 +39290,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.cityInBlacklist(_vm.item.address.city_name)
-    ? _c(
-        "div",
-        {
-          staticClass: "shadow p-4 w-44-percent lg:w-30-percent inline-block",
-          class: this.customClass
-        },
-        [
-          _c("a", { attrs: { href: _vm.item.permalink } }, [
-            _c("img", {
-              staticClass: "mx-auto mb-5",
-              attrs: { src: _vm.item.thumbnail }
-            }),
-            _vm._v(" "),
-            _c("h2", { staticClass: "font-bold" }, [
-              _vm._v(_vm._s(_vm.item.title))
-            ]),
-            _vm._v(" "),
-            _c("h2", { staticClass: "text-green-600 font-bold" }, [
-              _vm._v("$" + _vm._s(_vm.item.price))
-            ]),
-            _vm._v(" "),
-            _c("h3", { staticClass: "text-gray-700" }, [
-              _vm._v(
-                _vm._s(_vm.item.address.city_name) +
-                  " - " +
-                  _vm._s(_vm.item.address.state_name)
-              )
-            ])
-          ])
-        ]
-      )
-    : _vm._e()
+  return _c(
+    "div",
+    {
+      staticClass: "shadow p-4 w-44-percent lg:w-30-percent inline-block",
+      class: this.customClass
+    },
+    [
+      _c("a", { attrs: { href: _vm.item.permalink } }, [
+        _c("img", {
+          staticClass: "mx-auto mb-5",
+          attrs: { src: _vm.item.thumbnail }
+        }),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold" }, [
+          _vm._v(_vm._s(_vm.item.title))
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "text-green-600 font-bold" }, [
+          _vm._v("$" + _vm._s(_vm.item.price))
+        ]),
+        _vm._v(" "),
+        _c("h3", { staticClass: "text-gray-700" }, [
+          _vm._v(
+            _vm._s(_vm.item.address.city_name) +
+              " - " +
+              _vm._s(_vm.item.address.state_name)
+          )
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -14,7 +15,8 @@ class SearchController extends Controller
         return view('search', [
             'searchTerm' => $request->query('q'),
             'searchFilters' => $searchFilters,
-            'currentUrl' => $request->fullUrlWithQuery($currentQuery)
+            'currentUrl' => $request->fullUrlWithQuery($currentQuery),
+            'apiToken' => Auth::user()->api_token ?? ''
         ]);
     }
 
@@ -25,7 +27,7 @@ class SearchController extends Controller
                 'search' => 'required|min:3'
             ],
             [
-                'search.required' => 'Do you want to search anything?'
+                'search.required' => 'Querés buscar algo?'
             ]
         );
         $query = filter_var($validatedData['search'], FILTER_SANITIZE_STRING);

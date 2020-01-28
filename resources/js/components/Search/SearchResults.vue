@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  props: ["searchTerm", "currentUrl", "searchFilters"],
+  props: ["searchTerm", "currentUrl", "searchFilters", "apiToken"],
   data() {
     return {
       searchResults: null
@@ -65,19 +65,23 @@ export default {
   },
   mounted() {
     const filters = JSON.parse(this.searchFilters);
-    const queryString = Object.keys(filters)
-      .map(key => `${key}=${filters[key]}`)
-      .join("&");
 
-    const url = `https://api.mercadolibre.com/sites/MLA/search?q=${
-      this.searchTerm
-    }&sort=price_asc${
-      Object.keys(filters).length !== 0 ? "&" + queryString : ""
-    }`;
-
-    axios.get(url).then(response => {
-      this.searchResults = response.data;
-    });
+    axios
+      .post(
+        "/api/search",
+        {
+          q: this.searchTerm,
+          filters
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + this.apiToken
+          }
+        }
+      )
+      .then(response => {
+        this.searchResults = response.data;
+      });
   }
 };
 </script>
