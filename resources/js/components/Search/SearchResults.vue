@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2" v-if="searchResults">
+    <div class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2" v-else-if="searchResults">
       <search-item
         v-for="(product, index) in searchResults.results"
         :key="index"
@@ -34,6 +34,9 @@
         :on-navigate="createSearchUrlWithParameter"
         custom-class="my-4"
       ></pagination>
+    </div>
+    <div class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2" v-else>
+      <h1 class="text-4xl italic text-gray-700">Sin resultados :(</h1>
     </div>
   </div>
 </template>
@@ -53,7 +56,7 @@ export default {
       );
     },
     currentPage() {
-      const currentPage =
+      let currentPage =
         this.searchResults.paging.offset / this.searchResults.paging.limit;
       return currentPage ? currentPage + 1 : 1;
     },
@@ -65,6 +68,7 @@ export default {
   },
   mounted() {
     const filters = JSON.parse(this.searchFilters);
+    const self = this;
 
     axios
       .post(
@@ -81,6 +85,10 @@ export default {
       )
       .then(response => {
         this.searchResults = response.data;
+      })
+      .catch(function(error) {
+        alert(error.response.data.error);
+        self.searchResults = error.response.data.products;
       });
   }
 };

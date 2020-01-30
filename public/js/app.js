@@ -2475,6 +2475,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["searchTerm", "currentUrl", "searchFilters", "apiToken"],
   data: function data() {
@@ -2500,6 +2503,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var filters = JSON.parse(this.searchFilters);
+    var self = this;
     axios.post("/api/search", {
       q: this.searchTerm,
       filters: filters
@@ -2509,6 +2513,9 @@ __webpack_require__.r(__webpack_exports__);
       }
     }).then(function (response) {
       _this.searchResults = response.data;
+    })["catch"](function (error) {
+      alert(error.response.data.error);
+      self.searchResults = error.response.data.products;
     });
   }
 });
@@ -39372,9 +39379,7 @@ var render = function() {
             }),
             0
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.searchResults
+        : _vm.searchResults
         ? _c(
             "div",
             {
@@ -39402,7 +39407,18 @@ var render = function() {
             ],
             2
           )
-        : _vm._e()
+        : _c(
+            "div",
+            {
+              staticClass:
+                "search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2"
+            },
+            [
+              _c("h1", { staticClass: "text-4xl italic text-gray-700" }, [
+                _vm._v("Sin resultados :(")
+              ])
+            ]
+          )
     ],
     1
   )
