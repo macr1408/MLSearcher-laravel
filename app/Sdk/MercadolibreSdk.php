@@ -8,16 +8,22 @@ use Illuminate\Support\Facades\Log;
 
 class MercadolibreSdk
 {
-    private $api;
+    private $api, $accessToken;
 
     public function __construct(MercadolibreApi $api)
     {
         $this->api = $api;
+        $this->accessToken = '';
     }
 
-    public function search_products(string $term, array $filters): array
+    public function setAccessToken(string $accessToken): void
     {
-        $params = ['q' => $term];
+        $this->accessToken = $accessToken;
+    }
+
+    public function searchProducts(string $term, array $filters): array
+    {
+        $params = ['q' => $term, 'access_token' => $this->accessToken, 'sort' => 'price_asc'];
         $params = array_merge($params, $filters);
         $query = http_build_query($params);
         try {
@@ -33,5 +39,28 @@ class MercadolibreSdk
                 return [];
             }
         }
+    }
+
+    public function auth(string $code, string $redirectUri): array
+    {
+        $params = [
+            'grant_type' => 'authorization_code',
+            'client_id' => env('ML_CLIENT_ID'),
+            'client_secret' => env('ML_CLIENT_SECRET'),
+            'code' => $code,
+            'redirect_uri' => $redirectUri
+        ];
+        return $this->api->auth($params);
+    }
+
+    public function refreshToken(string $refreshToken)
+    {
+        $params = [
+            'grant_type' => 'refresh_token',
+            'client_id' => env('ML_CLIENT_ID'),
+            'client_secret' => env('ML_CLIENT_SECRET'),
+            'refresh_token' => $refreshToken
+        ];
+        return $this->api->refreshToken($params);
     }
 }

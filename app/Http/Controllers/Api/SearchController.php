@@ -24,8 +24,9 @@ class SearchController extends Controller
         $validator = Validator::make($data, $rules);
         $query = filter_var($data['q'], FILTER_SANITIZE_STRING);
         $filters = $data['filters'] ?? ['offset' => 0];
+        $user = auth('api')->user();
         if (!$validator->fails()) {
-            $products = $service->search_products($query, $filters);
+            $products = $service->searchProducts($query, $filters, $user ?? '');
             if (!empty($products['error'])) {
                 return response()->json($products, 422);
             }

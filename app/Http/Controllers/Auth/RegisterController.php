@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -72,17 +73,7 @@ class RegisterController extends Controller
 
     protected function redirectTo()
     {
-        $notifications = session('notifications');
-        if (empty($notifications) || !is_array($notifications)) {
-            session()->flash('notifications', [
-                'success' => 'Registrado correctamente'
-            ]);
-        } else {
-            $notifications[] = [
-                'success' => 'Registrado correctamente'
-            ];
-            session()->flash('notifications', $notifications);
-        }
+        Helper::flash_success('Registrado correctamente');
         return '/';
     }
 }

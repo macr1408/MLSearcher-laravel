@@ -17,6 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/search', 'SearchController@index')->name('view_search');
 Route::post('/search', 'SearchController@create')->name('create_search');
+Route::get('/settings/authorize', 'MercadolibreAuthController@auth')->name('settings_authorize');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
     Route::get('/settings', 'Users\SettingsController@create')->name('view_settings');

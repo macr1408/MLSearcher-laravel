@@ -7,29 +7,30 @@ use App\UserSettings;
 
 class MercadolibreSearchService
 {
-    const PRODUCTS_LIMIT = 50;
+    const PRODUCTS_LIMIT = 5;
 
-    private $sdk;
+    private $sdk, $mercadolibreTokenService;
 
-    public function __construct(MercadolibreSdk $mlsdk)
+    public function __construct(MercadolibreSdk $mlsdk, MercadolibreTokenService $mercadolibreTokenService)
     {
         $this->sdk = $mlsdk;
+        $this->mercadolibreTokenService = $mercadolibreTokenService;
     }
 
-    public function search_products(string $query, array $filters): array
+    public function searchProducts(string $query, array $filters, object $user): array
     {
-        $products = $this->sdk->search_products($query, $filters);
+        $products = $this->sdk->searchProducts($query, $filters);
         if (empty($products['results'])) {
             return $products;
         }
-        $products = $this->maybe_filter_products($products);
+        $products = $this->maybeFilterProducts($products, $user);
         while (count($products['results']) < self::PRODUCTS_LIMIT) {
-            $filters['offset'] = $products['paging']['offset'] + self::PRODUCTS_LIMIT;
-            $nextProducts = $this->sdk->search_products($query, $filters);
+            $filters['offset'] = $products['paging']['offset'] + 50;
+            $nextProducts = $this->sdk->searchProducts($query, $filters);
             if (empty($nextProducts['results'])) {
                 break;
             }
-            $nextProducts = $this->maybe_filter_products($nextProducts);
+            $nextProducts = $this->maybeFilterProducts($nextProducts, $user);
             $products['results'] = array_merge($products['results'], $nextProducts['results']);
             $products['paging']['offset'] = $nextProducts['paging']['offset'];
         }
@@ -39,25 +40,25 @@ class MercadolibreSearchService
         return $products;
     }
 
-    protected function maybe_filter_products(array $products): array
+    protected function maybeFilterProducts(array $products, object $user): array
     {
-        $user = auth('api')->user();
         if (empty($user)) {
             return $products;
         }
         try {
             $userSettings = UserSettings::where('user_id', '=', $user->id)->firstOrFail();
+            $this->mercadolibreTokenService->maybe_update_access_token($user->id);
+            $this->sdk->setAccessToken($userSettings->ml_access_token);
         } catch (\Exception $e) {
             return $products;
         }
-        $userSettings = UserSettings::where('user_id', '=', $user->id)->firstOrFail();
         if (empty($userSettings['allowed-locations'])) {
             return $products;
         }
-        return $this->filter_products($products, $userSettings['allowed-locations']);
+        return $this->filterProducts($products, $userSettings['allowed-locations']);
     }
 
-    protected function filter_products(array $products, string $allowedLocations): array
+    protected function filterProducts(array $products, string $allowedLocations): array
     {
         $locations = explode(',', $allowedLocations);
         $products['results'] = array_filter($products['results'], function ($elem) use ($locations) {
