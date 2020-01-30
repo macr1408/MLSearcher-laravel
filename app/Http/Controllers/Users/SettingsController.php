@@ -77,9 +77,13 @@ class SettingsController extends Controller
             return trim(strtolower($elem));
         }, $locations);
         $locations = implode(',', $locations);
-        UserSettings::updateOrCreate(
+        $res = UserSettings::updateOrCreate(
             ['user_id' => Auth::id()],
-            ['allowed-locations' => $locations]
+            [
+                'allowed-locations' => $locations,
+                'ml_client_id' => filter_var($settings['ml-client-id'], FILTER_SANITIZE_STRING),
+                'ml_client_secret' => filter_var($settings['ml-client-secret'], FILTER_SANITIZE_STRING)
+            ]
         );
         session()->flash('notifications', [
             'success' => 'Configuración guardada correctamente'

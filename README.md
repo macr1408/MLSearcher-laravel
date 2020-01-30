@@ -16,6 +16,5 @@ Live demo: https://mldealsfinder.herokuapp.com/
 
 - [x] Home
 - [x] Basic search
-- [ ] Advanced search (Filters)
-- [ ] Login/Register
-- [ ] Favorites filters combinations
+- [x] Advanced search (Filters)
+- [x] Login/Register

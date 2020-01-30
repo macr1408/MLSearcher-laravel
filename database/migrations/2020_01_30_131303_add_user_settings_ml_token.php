@@ -14,6 +14,8 @@ class AddUserSettingsMlToken extends Migration
     public function up()
     {
         Schema::table('user_settings', function ($table) {
+            $table->string('ml_client_id', 50)->nullable()->default(null);
+            $table->string('ml_client_secret', 50)->nullable()->default(null);
             $table->string('ml_access_token', 50)->nullable()->default(null);
             $table->string('ml_refresh_token', 50)->nullable()->default(null);
             $table->dateTime('ml_token_expiry', 0)->nullable()->default(null);
@@ -27,6 +29,12 @@ class AddUserSettingsMlToken extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('user_settings', function (Blueprint $table) {
+            $table->dropColumn('ml_client_id');
+            $table->dropColumn('ml_client_secret');
+            $table->dropColumn('ml_access_token');
+            $table->dropColumn('ml_refresh_token');
+            $table->dropColumn('ml_token_expiry');
+        });
     }
 }
