@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Services\MercadolibreSearchService;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SearchController extends Controller
@@ -26,7 +27,7 @@ class SearchController extends Controller
         $filters = $data['filters'] ?? ['offset' => 0];
         $user = auth('api')->user();
         if (!$validator->fails()) {
-            $products = $service->searchProducts($query, $filters, $user ?? '');
+            $products = $service->searchProducts($query, $filters, $user ?? new \stdClass);
             if (!empty($products['error'])) {
                 return response()->json($products, 422);
             }
