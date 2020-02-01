@@ -45,8 +45,8 @@ class MercadolibreSdk
     {
         $params = [
             'grant_type' => 'authorization_code',
-            'client_id' => env('ML_CLIENT_ID'),
-            'client_secret' => env('ML_CLIENT_SECRET'),
+            'client_id' => getenv('ML_CLIENT_ID'),
+            'client_secret' => getenv('ML_CLIENT_SECRET'),
             'code' => $code,
             'redirect_uri' => $redirectUri
         ];
@@ -57,8 +57,8 @@ class MercadolibreSdk
     {
         $params = [
             'grant_type' => 'refresh_token',
-            'client_id' => env('ML_CLIENT_ID'),
-            'client_secret' => env('ML_CLIENT_SECRET'),
+            'client_id' => getenv('ML_CLIENT_ID'),
+            'client_secret' => getenv('ML_CLIENT_SECRET'),
             'refresh_token' => $refreshToken
         ];
         return $this->api->refreshToken($params);
