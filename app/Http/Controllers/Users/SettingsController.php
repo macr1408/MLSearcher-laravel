@@ -73,11 +73,15 @@ class SettingsController extends Controller
     public function update(Request $request)
     {
         $settings = $request->input();
-        $locations = explode(',', $settings['allowed-locations'] ?? []);
-        $locations = array_map(function ($elem) {
-            return trim(strtolower($elem));
-        }, $locations);
-        $locations = implode(',', $locations);
+        if (empty($settings['allowed-locations'])) {
+            $locations = [];
+        } else {
+            $locations = explode(',', $settings['allowed-locations']);
+            $locations = array_map(function ($elem) {
+                return trim(strtolower($elem));
+            }, $locations);
+            $locations = implode(',', $locations);
+        }
         UserSettings::updateOrCreate(
             ['user_id' => Auth::id()],
             [
