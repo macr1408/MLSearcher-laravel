@@ -20,6 +20,9 @@ Route::post('/search', 'SearchController@create')->name('create_search');
 Route::get('/settings/authorize', 'MercadolibreAuthController@auth')->name('settings_authorize');
 
 Route::group(['middleware' => 'auth', 'prefix' => 'user'], function () {
+    Route::get('/test', function () {
+        return 'Hola';
+    });
     Route::get('/settings', 'Users\SettingsController@create')->name('view_settings');
     Route::put('/settings', 'Users\SettingsController@update')->name('update_settings');
 });
