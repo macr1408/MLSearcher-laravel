@@ -74,7 +74,7 @@ class SettingsController extends Controller
     {
         $settings = $request->input();
         if (empty($settings['allowed-locations'])) {
-            $locations = [];
+            $locations = '';
         } else {
             $locations = explode(',', $settings['allowed-locations']);
             $locations = array_map(function ($elem) {
