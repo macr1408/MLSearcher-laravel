@@ -27,8 +27,7 @@ class SettingsController extends Controller
      */
     public function create()
     {
-        return 'test';
-        $userSettings = UserSettings::where('user_id', '=', Auth::id())->firstOrFail();
+        $userSettings = UserSettings::where('user_id', '=', Auth::id())->first();
         return view('user.settings', ['user' => $userSettings]);
     }
 

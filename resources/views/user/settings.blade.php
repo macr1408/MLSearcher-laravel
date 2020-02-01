@@ -10,7 +10,7 @@
             <hr class="border-t-2 border-yellow-400 mb-10 mt-2" />
 
             <div class="mb-10 flex justify-center flex-wrap">
-                <a class="mb-4 font-bold rounded bg-yellow-500 text-white py-2 px-6 cursor-pointer" href="{{ 'http://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=' . env('ML_CLIENT_ID') . '&redirect_uri=' . route('settings_authorize')}}">{{ Carbon\Carbon::now() > $user['ml_token_expiry'] ? 'Conectar con Mercadolibre' : 'Conectado con Mercadolibre' }}</a>
+                <a class="mb-4 font-bold rounded bg-yellow-500 text-white py-2 px-6 cursor-pointer" href="{{ 'http://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=' . getenv('ML_CLIENT_ID') . '&redirect_uri=' . route('settings_authorize')}}">{{ Carbon\Carbon::now() > ($user['ml_token_expiry'] ?? '2000-01-01 00:00:00') ? 'Conectar con Mercadolibre' : 'Conectado con Mercadolibre' }}</a>
                 <p class="w-full italic text-sm text-gray-700">Al conectar tu cuenta con Mercadolibre podrás realizar búsquedas completas, de lo contrario tus búsquedas estarán limitadas hasta cierta cantidad de resultados.</p>
             </div>
 
