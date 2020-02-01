@@ -3,10 +3,10 @@
 use Illuminate\Support\Str;
 
 $heroku_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-$heroku_host = $url["host"];
-$heroku_username = $url["user"];
-$heroku_password = $url["pass"];
-$heroku_database = substr($url["path"], 1);
+$heroku_host = $heroku_url["host"];
+$heroku_username = $heroku_url["user"];
+$heroku_password = $heroku_url["pass"];
+$heroku_database = substr($heroku_url["path"], 1);
 
 return [
 
