@@ -15,6 +15,11 @@ return [
 
     'name' => env('APP_NAME', 'Mercadolibre Deals Finder'),
 
+    /**
+     * Display Log in Heroku dashboard
+     */
+    "log" => "errorlog",
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

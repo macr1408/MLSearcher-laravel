@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Str;
 
+$heroku_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$heroku_host = $url["host"];
+$heroku_username = $url["user"];
+$heroku_password = $url["pass"];
+$heroku_database = substr($url["path"], 1);
+
 return [
 
     /*
@@ -15,7 +21,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'heroku_mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,6 +97,17 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'heroku_mysql' => array(
+            'driver' => 'mysql',
+            'host' => $heroku_host,
+            'database' => $heroku_database,
+            'username' => $heroku_username,
+            'password' => $heroku_password,
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+        ),
+
     ],
 
     /*
@@ -123,7 +140,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
