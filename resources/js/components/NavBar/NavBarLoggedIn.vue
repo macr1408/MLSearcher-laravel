@@ -1,6 +1,6 @@
 <template>
   <div class="bg-yellow-primary">
-    <nav class="flex items-center justify-between flex-wrap container">
+    <nav class="flex items-center justify-between flex-wrap container p-4">
       <div class="flex items-center flex-shrink-0 text-gray-800 mr-6">
         <a :href="links.home">
           <svg
@@ -52,9 +52,6 @@
             <div class="shadow bg-white absolute" style="top: 50px;" v-show="accountMenuHover">
               <transition name="fade">
                 <ul>
-                  <a href="/user/favorites">
-                    <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Favoritos</li>
-                  </a>
                   <a href="/user/settings">
                     <li class="py-4 pl-4 pr-8 hover:bg-yellow-400">Configuración</li>
                   </a>

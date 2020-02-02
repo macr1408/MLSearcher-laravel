@@ -2151,9 +2151,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2435,6 +2432,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -38769,7 +38769,9 @@ var render = function() {
   return _c("div", { staticClass: "bg-yellow-primary" }, [
     _c(
       "nav",
-      { staticClass: "flex items-center justify-between flex-wrap container" },
+      {
+        staticClass: "flex items-center justify-between flex-wrap container p-4"
+      },
       [
         _c(
           "div",
@@ -38921,17 +38923,6 @@ var render = function() {
                     [
                       _c("transition", { attrs: { name: "fade" } }, [
                         _c("ul", [
-                          _c("a", { attrs: { href: "/user/favorites" } }, [
-                            _c(
-                              "li",
-                              {
-                                staticClass:
-                                  "py-4 pl-4 pr-8 hover:bg-yellow-400"
-                              },
-                              [_vm._v("Favoritos")]
-                            )
-                          ]),
-                          _vm._v(" "),
                           _c("a", { attrs: { href: "/user/settings" } }, [
                             _c(
                               "li",
@@ -39384,7 +39375,7 @@ var render = function() {
             "div",
             {
               staticClass:
-                "search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2"
+                "search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
             },
             [
               _vm._l(_vm.searchResults.results, function(product, index) {

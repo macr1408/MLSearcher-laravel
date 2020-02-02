@@ -20,7 +20,10 @@
         </div>
       </div>
     </div>
-    <div class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2" v-else-if="searchResults">
+    <div
+      class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
+      v-else-if="searchResults"
+    >
       <search-item
         v-for="(product, index) in searchResults.results"
         :key="index"

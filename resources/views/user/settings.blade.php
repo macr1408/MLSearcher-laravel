@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="flex items-center justify-center min-h-screen bg-gray-300">
-    <div class="w-6/12 px-12 py-6 shadow-lg bg-white">
+    <div class="mt-2 md:mt-0 w-11/12 md:w-6/12 px-12 py-6 shadow-lg bg-white">
         <form action="/user/settings" method="post">
             @method('PUT')
             @csrf
@@ -16,7 +16,7 @@
 
             <div>
                 <h2 class="font-bold mb-2 text-sm">Localidades a permitir (separadas por coma)</h2>
-                <textarea placeholder="Belgrano, Rivadavia" class="border border-gray-300 border-solid px-2" name="allowed-locations" id="allowed-locations" cols="50" rows="5">{{ $user['allowed-locations'] ?? '' }}</textarea>
+                <textarea placeholder="Belgrano, Rivadavia" class="border border-gray-300 border-solid px-2 max-w-full" name="allowed-locations" id="allowed-locations" cols="50" rows="5">{{ $user['allowed-locations'] ?? '' }}</textarea>
             </div>
 
             <div class="block my-4">
