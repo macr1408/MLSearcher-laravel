@@ -2514,7 +2514,10 @@ __webpack_require__.r(__webpack_exports__);
     }).then(function (response) {
       _this.searchResults = response.data;
     })["catch"](function (error) {
-      alert(error.response.data.error);
+      if (error.response.data.error !== undefined) {
+        alert(error.response.data.error);
+      }
+
       self.searchResults = error.response.data.products;
     });
   }
@@ -39356,7 +39359,9 @@ var render = function() {
       _vm.searchResults === null
         ? _c(
             "div",
-            { staticClass: "placeholder-items-wrapper w-9/12 ph-item" },
+            {
+              staticClass: "placeholder-items-wrapper w-full lg:w-9/12 ph-item"
+            },
             _vm._l(9, function(index) {
               return _c(
                 "div",
@@ -39375,7 +39380,7 @@ var render = function() {
             "div",
             {
               staticClass:
-                "search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
+                "search-results mt-5 w-full md:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
             },
             [
               _vm._l(_vm.searchResults.results, function(product, index) {

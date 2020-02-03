@@ -34,7 +34,7 @@ class MercadolibreSdk
                 $msg = $e->getResponse()->getBody(true);
                 Log::error('ML SDK - No se pudo buscar productos: ' . $msg);
                 if (strpos($msg, 'The requested offset is higher than the allowed.') !== false) {
-                    return ['error' => 'Por favor agregá el access token en la configuración de tu cuenta para continuar buscando'];
+                    return ['error' => 'Por favor agregá el access token en la configuración de tu cuenta o segmenta tu búsqueda para continuar buscando'];
                 }
                 return [];
             }

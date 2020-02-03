@@ -22,13 +22,16 @@ class MercadolibreTokenService
         return $userSettings->ml_access_token;
     }
 
-    public function maybe_update_access_token(int $userId): string
+    public function maybe_update_access_token(int $userId): bool
     {
         $userSettings = UserSettings::where('user_id', '=', $userId)->firstOrFail();
+        if (empty($userSettings->ml_refresh_token)) {
+            return false;
+        }
         if (Carbon::now() >= $userSettings->ml_token_expiry) {
             return $this->refresh_access_token($userId, $userSettings->ml_refresh_token);
         }
-        return true;
+        return false;
     }
 
     public function update_access_token(int $userId, string $mlCode): bool

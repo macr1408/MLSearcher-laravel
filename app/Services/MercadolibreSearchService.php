@@ -48,7 +48,9 @@ class MercadolibreSearchService
         try {
             $userSettings = UserSettings::where('user_id', '=', $user->id)->firstOrFail();
             $this->mercadolibreTokenService->maybe_update_access_token($user->id);
-            $this->sdk->setAccessToken($userSettings->ml_access_token);
+            if (!empty($userSettings->ml_access_token)) {
+                $this->sdk->setAccessToken($userSettings->ml_access_token);
+            }
         } catch (\Exception $e) {
             return $products;
         }

@@ -4,7 +4,7 @@
       :filters="searchResults? searchResults.available_filters : []"
       :update-url-action="createSearchUrlWithParameter"
     ></search-filters>
-    <div class="placeholder-items-wrapper w-9/12 ph-item" v-if="searchResults === null">
+    <div class="placeholder-items-wrapper w-full lg:w-9/12 ph-item" v-if="searchResults === null">
       <div
         class="shadow w-44-percent lg:w-30-percent inline-block m-2 p-5"
         v-for="index in 9"
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div
-      class="search-results mt-5 w-full lg:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
+      class="search-results mt-5 w-full md:w-9/12 flex flex-wrap p-2 justify-around md:justify-start"
       v-else-if="searchResults"
     >
       <search-item
@@ -90,7 +90,9 @@ export default {
         this.searchResults = response.data;
       })
       .catch(function(error) {
-        alert(error.response.data.error);
+        if (error.response.data.error !== undefined) {
+          alert(error.response.data.error);
+        }
         self.searchResults = error.response.data.products;
       });
   }
